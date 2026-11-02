@@ -1,6 +1,6 @@
 # EternautaGame
 
-Godot 4.6 prototype foundation for a 2D metroidvania targeting Linux and Steam Deck.
+Godot 4.6 vertical slice: Chalet → fabricate an insulated suit → first step into the snowfall.
 
 ## Local setup
 
@@ -14,16 +14,19 @@ make export-linux-debug
 ## Controls
 
 - Move: WASD/arrows or left stick/D-pad
-- Jump/confirm: Space or controller South (A)
-- Dash/cancel: Shift or controller East (B)
-- Attack/interact: J/K or controller West (X)
+- Jump: Space or controller South (A); one human jump only
+- Interact: K or controller West (X)
 - Pause: Escape or Start
 
-The prototype has placeholder geometry only. It intentionally excludes Steamworks, store integration, final content, art and audio.
+## Chalet slice
+
+Juan begins enclosed in the chalet. Collect `lona`, `sellado_guantes`, and `mascara_filtro` in any order, then interact with Favalli's fabrication table to equip the insulated suit. Until then, both exits remain blocked by the snowfall. After fabrication, choose the north window/low roof (`VN`) or south front door (`VS`); the slice closes with `Vicente López norte` or `Vicente López sur` respectively.
+
+The slice intentionally has no combat, health, respawn/checkpoints, dash, double jump, wall jump, radio, map, generic inventory, or open-ended crafting.
 
 ## Automated playtests
 
-`make qa` launches the real main scene headlessly and replays the controller-semantic smoke flow in `tests/qa/smoke.json`: player spawn/health, enemy defeat, checkpoint activation, double-jump collection, a two-press jump traversal over the gap, and final objective completion. It writes JSON/JUnit reports to `build/`.
+`make qa` launches two real headless input playthroughs of the main scene: `tests/qa/chalet_vn.json` and `tests/qa/chalet_vs.json`. Each verifies the initial weather block, free-order materials, suit fabrication, and its route-specific closing title. Reports are written as `build/qa-chalet-vn.{json,xml}` and `build/qa-chalet-vs.{json,xml}`.
 
 `make qa-visual` is intentionally a placeholder until screenshots are captured in CI. Visual baselines must come from CI (not local drivers/fonts), then Godot QA can diff them under Xvfb/Mesa.
 

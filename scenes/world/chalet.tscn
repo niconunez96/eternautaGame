@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/world/suit_material.tscn" id="1_material"]
+[ext_resource type="PackedScene" path="res://scenes/world/fabrication_station.tscn" id="2_station"]
+[ext_resource type="PackedScene" path="res://scenes/world/suit_exit.tscn" id="3_exit"]
+
+[sub_resource type="RectangleShape2D" id="FloorShape"]
+size = Vector2(1280, 80)
+
+[sub_resource type="RectangleShape2D" id="WallShape"]
+size = Vector2(20, 640)
+
+[node name="Chalet" type="Node2D"]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(640, 760)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("FloorShape")
+[node name="Visual" type="Polygon2D" parent="Floor"]
+polygon = PackedVector2Array(-640, -40, 640, -40, 640, 40, -640, 40)
+color = Color(0.28, 0.22, 0.17, 1)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(10, 400)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource("WallShape")
+
+[node name="RoomLabels" type="Node2D" parent="."]
+[node name="LivingRoom" type="Label" parent="RoomLabels"]
+position = Vector2(80, 610)
+text = "Estar / comedor\nElena y Martita"
+[node name="Kitchen" type="Label" parent="RoomLabels"]
+position = Vector2(255, 610)
+text = "Cocina\nLona"
+[node name="Tools" type="Label" parent="RoomLabels"]
+position = Vector2(485, 610)
+text = "Cuarto de herramientas\nSellado + guantes"
+[node name="Loft" type="Label" parent="RoomLabels"]
+position = Vector2(705, 610)
+text = "Altillo\nMáscara + filtro"
+[node name="Favalli" type="Label" parent="RoomLabels"]
+position = Vector2(875, 610)
+text = "Favalli\nMesa de fabricación"
+[node name="NorthExit" type="Label" parent="RoomLabels"]
+position = Vector2(1080, 530)
+text = "Ventana / techo bajo\nVN"
+[node name="SouthExit" type="Label" parent="RoomLabels"]
+position = Vector2(1180, 610)
+text = "Puerta frontal\nVS"
+
+[node name="MaterialLona" parent="." instance=ExtResource("1_material")]
+position = Vector2(300, 675)
+material_id = "lona"
+[node name="MaterialSelladoGuantes" parent="." instance=ExtResource("1_material")]
+position = Vector2(535, 675)
+material_id = "sellado_guantes"
+[node name="MaterialMascaraFiltro" parent="." instance=ExtResource("1_material")]
+position = Vector2(760, 675)
+material_id = "mascara_filtro"
+[node name="FavalliFabrication" parent="." instance=ExtResource("2_station")]
+position = Vector2(960, 675)
+[node name="ExitVN" parent="." instance=ExtResource("3_exit")]
+position = Vector2(1100, 650)
+exit_id = "VN"
+[node name="ExitVS" parent="." instance=ExtResource("3_exit")]
+position = Vector2(1210, 675)
+exit_id = "VS"
