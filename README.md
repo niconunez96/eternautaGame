@@ -1,11 +1,11 @@
 # EternautaGame
 
-Godot 4.6 vertical slice: Chalet → fabricate an insulated suit → first step into the snowfall.
+Godot 4.7 vertical slice: Chalet → fabricate an insulated suit → first step into the snowfall.
 
 ## Local setup
 
 ```bash
-godot --version       # 4.6.stable.official.89cea1439
+godot --version       # 4.7.stable.official.5b4e0cb0f
 make verify
 make qa
 make export-linux-debug
