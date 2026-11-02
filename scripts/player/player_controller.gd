@@ -20,6 +20,8 @@ var dash_remaining := 0.0
 var dash_cooldown := 0.0
 var damage_immunity_remaining := 0.0
 var dash_direction := 1
+var has_double_jump := false
+var air_jump_available := false
 
 func _ready() -> void:
 	add_to_group("player")
@@ -30,13 +32,13 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	coyote_remaining = 0.12 if is_on_floor() else maxf(0.0, coyote_remaining - delta)
+	air_jump_available = PlayerMotionRules.refresh_air_jump(has_double_jump, air_jump_available, is_on_floor())
 	dash_cooldown = maxf(0.0, dash_cooldown - delta)
 	damage_immunity_remaining = maxf(0.0, damage_immunity_remaining - delta)
 	if Input.is_action_just_pressed("attack"):
 		attack_requested.emit(facing)
-	if Input.is_action_just_pressed("jump") and PlayerMotionRules.can_jump(is_on_floor(), coyote_remaining, 0.12):
-		velocity.y = JUMP_VELOCITY
-		coyote_remaining = 0.0
+	if Input.is_action_just_pressed("jump"):
+		request_jump()
 	var axis := Input.get_axis("move_left", "move_right")
 	if absf(axis) > 0.01:
 		facing = 1 if axis > 0.0 else -1
@@ -67,4 +69,21 @@ func reset_at(spawn_position: Vector2) -> void:
 	current_health = PlayerHealth.reset(maximum_health)
 	damage_immunity_remaining = 0.0
 	dash_remaining = 0.0
+	coyote_remaining = 0.0
+	air_jump_available = has_double_jump
 	health_changed.emit(current_health, maximum_health)
+
+func set_double_jump_acquired(acquired: bool) -> void:
+	has_double_jump = acquired
+	air_jump_available = acquired
+
+func request_jump() -> bool:
+	if PlayerMotionRules.can_jump(is_on_floor(), coyote_remaining, 0.12):
+		velocity.y = JUMP_VELOCITY
+		coyote_remaining = 0.0
+		return true
+	if PlayerMotionRules.can_extra_jump(has_double_jump, air_jump_available, is_on_floor(), coyote_remaining, 0.12):
+		velocity.y = JUMP_VELOCITY
+		air_jump_available = PlayerMotionRules.consume_extra_jump(has_double_jump, air_jump_available, is_on_floor(), coyote_remaining, 0.12)
+		return true
+	return false

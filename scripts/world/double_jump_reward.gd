@@ -1,4 +1,3 @@
-class_name AccessReward
 extends Area2D
 
 signal collected(ability_id: String)
@@ -14,4 +13,4 @@ func _on_body_entered(body: Node2D) -> void:
 	collected_state = true
 	set_deferred("monitoring", false)
 	visible = false
-	collected.emit("access_key")
+	collected.emit("double_jump")
