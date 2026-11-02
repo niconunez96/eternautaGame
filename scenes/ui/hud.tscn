@@ -1,0 +1,9 @@
+[gd_scene format=3]
+[node name="HUD" type="CanvasLayer"]
+[node name="Margin" type="MarginContainer" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 610.0
+offset_bottom = 140.0
+[node name="Label" type="Label" parent="Margin"]
+text = "ETERNAUTA // Prototype Arena\nMove: WASD / stick   Jump: Space / A   Dash: Shift / B\nAttack: J / X   Pause: Esc / Start"

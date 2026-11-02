@@ -1,0 +1,13 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Godot 4.6
+        run: echo 'Pin Godot 4.6 editor and matching Linux templates here.'
+      - name: Validate project
+        run: |
+          make verify
+          make export-linux-debug

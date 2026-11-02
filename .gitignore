@@ -1,0 +1,7 @@
+.godot/
+.import/
+build/
+.gutconfig.json
+.gut_temp_directory/
+*.tmp
+.DS_Store
