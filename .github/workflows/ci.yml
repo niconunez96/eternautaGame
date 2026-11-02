@@ -1,13 +1,21 @@
-name: CI
+name: Playtests
+
 on: [push, pull_request]
+
+permissions:
+  contents: read
+
 jobs:
-  linux:
+  godot-qa:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Install Godot 4.6
-        run: echo 'Pin Godot 4.6 editor and matching Linux templates here.'
-      - name: Validate project
-        run: |
-          make verify
-          make export-linux-debug
+      - name: Run Godot QA smoke playtest
+        uses: youichi-uda/godot-qa@v1.0.1
+        with:
+          project-path: .
+          godot-version: '4.6.0'
+          scenario: res://tests/qa/smoke.json
+          report: qa-report.json
+          junit: qa-report.xml

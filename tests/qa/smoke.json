@@ -1,0 +1,14 @@
+{
+  "scene_path": "res://scenes/app/main.tscn",
+  "steps": [
+    {"type": "wait", "node_path": "/root/Main/Player", "timeout": 3.0},
+    {"type": "assert", "node_path": "/root/Main/Player", "property": "position:x", "expected": 250, "operator": "gt"},
+    {"type": "input", "action": "move_right", "pressed": true, "auto_release": false},
+    {"type": "wait", "seconds": 0.5},
+    {"type": "input", "action": "move_right", "pressed": false},
+    {"type": "assert", "node_path": "/root/Main/Player", "property": "position:x", "expected": 280, "operator": "gt"},
+    {"type": "input", "action": "pause", "pressed": true, "auto_release": true},
+    {"type": "wait", "node_path": "/root/Main/PauseMenu", "timeout": 2.0},
+    {"type": "assert", "text": "Resume", "partial": true}
+  ]
+}
