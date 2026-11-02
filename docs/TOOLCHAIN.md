@@ -1,8 +1,8 @@
 # Toolchain
 
-- Editor: Godot `4.6.stable.official.89cea1439`
+- Editor: Godot `4.7.stable.official.5b4e0cb0f`
 - Editor command: `~/.local/bin/godot`
-- Linux templates: `~/.local/share/godot/export_templates/4.6.stable/`
-- Test runner: GUT `9.6.1` (`c80954f47bed74a0a2c471d472c0389f98e0a8f6`), vendored under `addons/gut`.
+- Linux templates: `~/.local/share/godot/export_templates/4.7.stable/`
+- Test runner: GUT `9.7.1` (`aeb5d4f3f7f0a6c9b5e178876d6c99b791fda605`), vendored under `addons/gut`.
 
 Keep Godot and export templates on the same version. To upgrade, install the matching official editor/templates first, update this document, then validate `make verify` and `make export-linux-debug`.
