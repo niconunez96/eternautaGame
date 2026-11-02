@@ -3,8 +3,8 @@
 | Fase | Estado | Artefacto |
 |---|---|---|
 | Diseño de campaña | Acordado | `00-plan.md` |
-| Diagrama de nodos del mapa | Pendiente | `phases/01-mapa/` |
-| Vertical slice | Pendiente | `phases/02-vertical-slice/` |
+| Diagrama de nodos del mapa | Acordado | `phases/01-mapa/01-diagrama-nodos.md` |
+| Diseño del vertical slice | Acordado | `phases/02-vertical-slice/01-diseno-vertical-slice.md` |
 | Implementación Godot | Pendiente | `phases/03-implementacion/` |
 
 ## Convenciones
