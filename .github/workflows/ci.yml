@@ -9,13 +9,16 @@ jobs:
   godot-qa:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      matrix:
+        route: [chalet_vn, chalet_vs]
     steps:
       - uses: actions/checkout@v4
-      - name: Run Godot QA smoke playtest
+      - name: Run Chalet ${{ matrix.route }} playtest
         uses: youichi-uda/godot-qa@v1.0.1
         with:
           project-path: .
           godot-version: '4.6.0'
-          scenario: res://tests/qa/smoke.json
-          report: qa-report.json
-          junit: qa-report.xml
+          scenario: res://tests/qa/${{ matrix.route }}.json
+          report: qa-${{ matrix.route }}.json
+          junit: qa-${{ matrix.route }}.xml

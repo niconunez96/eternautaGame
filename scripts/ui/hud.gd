@@ -1,22 +1,20 @@
 extends CanvasLayer
 
-@onready var health_label: Label = $HealthLabel
-@onready var checkpoint_label: Label = $CheckpointLabel
-@onready var ability_label: Label = $AbilityLabel
 @onready var status_label: Label = $StatusLabel
 @onready var objective_label: Label = $ObjectiveLabel
-
-func set_health(current: int, maximum: int) -> void:
-	health_label.text = "Health: %d / %d" % [current, maximum]
-
-func set_checkpoint(active: bool) -> void:
-	checkpoint_label.text = "Checkpoint: active" if active else "Checkpoint: start"
-
-func set_ability(acquired: bool) -> void:
-	ability_label.text = "Double jump: acquired" if acquired else "Double jump: missing"
+@onready var slice_state_label: Label = $SliceStateLabel
+@onready var terminal_overlay: ColorRect = $TerminalOverlay
+@onready var terminal_title: Label = $TerminalOverlay/TerminalTitle
 
 func set_status(message: String) -> void:
 	status_label.text = message
 
 func set_objective(message: String) -> void:
 	objective_label.text = message
+
+func set_slice_state(value: String) -> void:
+	slice_state_label.text = "Slice: %s" % value
+
+func show_terminal(title: String) -> void:
+	terminal_title.text = title
+	terminal_overlay.show()

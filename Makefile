@@ -12,7 +12,8 @@ test: import
 
 qa: import
 	mkdir -p build
-	$(GODOT) --headless --path . -s res://addons/godot_qa/runner.gd -- --scenario res://tests/qa/smoke.json --report build/qa-report.json --junit build/qa-report.xml
+	$(GODOT) --headless --path . -s res://addons/godot_qa/runner.gd -- --scenario res://tests/qa/chalet_vn.json --report build/qa-chalet-vn.json --junit build/qa-chalet-vn.xml
+	$(GODOT) --headless --path . -s res://addons/godot_qa/runner.gd -- --scenario res://tests/qa/chalet_vs.json --report build/qa-chalet-vs.json --junit build/qa-chalet-vs.xml
 
 qa-visual: import
 	@echo "Run under Xvfb/real display and capture CI baselines before enabling visual diffs."
