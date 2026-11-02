@@ -8,3 +8,6 @@ static func apply_damage(current_health: int, damage: int, invulnerable: bool = 
 
 static func heal(current_health: int, maximum_health: int, amount: int) -> int:
 	return mini(maximum_health, current_health + maxi(0, amount))
+
+static func reset(maximum_health: int) -> int:
+	return maxi(0, maximum_health)

@@ -1,9 +1,36 @@
-[gd_scene format=3]
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1"]
+
 [node name="HUD" type="CanvasLayer"]
-[node name="Margin" type="MarginContainer" parent="."]
+script = ExtResource("1")
+[node name="HealthLabel" type="Label" parent="."]
 offset_left = 20.0
-offset_top = 20.0
-offset_right = 610.0
-offset_bottom = 140.0
-[node name="Label" type="Label" parent="Margin"]
-text = "ETERNAUTA // Prototype Arena\nMove: WASD / stick   Jump: Space / A   Dash: Shift / B\nAttack: J / X   Pause: Esc / Start"
+offset_top = 18.0
+offset_right = 300.0
+offset_bottom = 44.0
+text = "Health: 3 / 3"
+[node name="CheckpointLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 46.0
+offset_right = 300.0
+offset_bottom = 72.0
+text = "Checkpoint: start"
+[node name="AbilityLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 74.0
+offset_right = 300.0
+offset_bottom = 100.0
+text = "Access key: missing"
+[node name="StatusLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 102.0
+offset_right = 550.0
+offset_bottom = 128.0
+text = "Defeat the enemy, then reach the door."
+[node name="ObjectiveLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 748.0
+offset_right = 1050.0
+offset_bottom = 778.0
+text = "Move: WASD / stick   Jump: Space / A   Attack: J / X   Interact: K / X   Pause: Esc / Start"

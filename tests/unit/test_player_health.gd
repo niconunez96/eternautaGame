@@ -10,3 +10,6 @@ func test_invulnerability_blocks_repeated_damage() -> void:
 
 func test_healing_cannot_exceed_maximum_health() -> void:
 	assert_eq(PlayerHealth.heal(8, 10, 5), 10)
+
+func test_reset_restores_maximum_health() -> void:
+	assert_eq(PlayerHealth.reset(10), 10)

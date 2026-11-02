@@ -23,7 +23,7 @@ The prototype has placeholder geometry only. It intentionally excludes Steamwork
 
 ## Automated playtests
 
-`make qa` launches the real main scene headlessly and replays the controller-semantic smoke flow in `tests/qa/smoke.json`: player spawn, movement, pause, and visible Resume UI. It writes JSON/JUnit reports to `build/`.
+`make qa` launches the real main scene headlessly and replays the controller-semantic smoke flow in `tests/qa/smoke.json`: player spawn/health, enemy defeat, checkpoint activation, access-key collection, and door unlock. It writes JSON/JUnit reports to `build/`.
 
 `make qa-visual` is intentionally a placeholder until screenshots are captured in CI. Visual baselines must come from CI (not local drivers/fonts), then Godot QA can diff them under Xvfb/Mesa.
 
