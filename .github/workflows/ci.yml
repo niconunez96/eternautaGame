@@ -18,7 +18,8 @@ jobs:
         uses: youichi-uda/godot-qa@v1.0.1
         with:
           project-path: .
-          godot-version: '4.6.0'
+          # Godot 4.6 was published as the `4.6-stable` release, not `4.6.0-stable`.
+          godot-version: '4.6'
           scenario: res://tests/qa/${{ matrix.route }}.json
           report: qa-${{ matrix.route }}.json
           junit: qa-${{ matrix.route }}.xml
