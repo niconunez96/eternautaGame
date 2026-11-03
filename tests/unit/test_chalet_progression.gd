@@ -93,3 +93,20 @@ func test_vs_route_cannot_activate_radio() -> void:
 	assert_true(progression.take_exit(ChaletProgression.EXIT_VS))
 	assert_false(progression.has_method("activate_radio") and progression.call("activate_radio"))
 	assert_false(progression.get("radio_activated") == true)
+
+func test_general_paz_requires_r1_and_closes_only_once() -> void:
+	var progression = ChaletProgression.new()
+	assert_false(progression.reach_general_paz())
+	for material in ChaletProgression.MATERIALS:
+		progression.collect_material(material)
+	progression.craft_suit()
+	assert_true(progression.take_exit(ChaletProgression.EXIT_VN))
+	assert_false(progression.reach_general_paz())
+	assert_true(progression.activate_radio())
+	assert_true(progression.can_reach_general_paz())
+	assert_true(progression.reach_general_paz())
+	assert_true(progression.general_paz_reached)
+	assert_eq(progression.slice_state, ChaletProgression.GENERAL_PAZ_ALCANZADA)
+	assert_eq(progression.objective, ChaletProgression.OBJETIVO_GENERAL_PAZ)
+	assert_false(progression.can_reach_general_paz())
+	assert_false(progression.reach_general_paz())

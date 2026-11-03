@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/vicente_lopez_norte.gd" id="1_scene"]
 [ext_resource type="Script" path="res://scripts/world/neighborhood_radio.gd" id="2_radio"]
+[ext_resource type="Script" path="res://scripts/world/general_paz_exit.gd" id="3_general_paz"]
 
 [sub_resource type="RectangleShape2D" id="FloorShape"]
 size = Vector2(1280, 80)
@@ -49,3 +50,13 @@ color = Color(0.87, 0.68, 0.25, 1)
 [node name="Label" type="Label" parent="Radio"]
 position = Vector2(-72, -60)
 text = "R-1 / K o X"
+
+[node name="GeneralPazExit" type="Area2D" parent="." groups=["chalet_interactable"]]
+position = Vector2(1160, 675)
+script = ExtResource("3_general_paz")
+[node name="Visual" type="Polygon2D" parent="GeneralPazExit"]
+polygon = PackedVector2Array(-36, -36, 36, -36, 36, 36, -36, 36)
+color = Color(0.53, 0.72, 0.86, 1)
+[node name="Label" type="Label" parent="GeneralPazExit"]
+position = Vector2(-90, -68)
+text = "General Paz bloqueada"
