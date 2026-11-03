@@ -10,6 +10,7 @@ var suit_equipped := false
 var selected_exit := ""
 var zone_title := ""
 var radio_activated := false
+var general_paz_reached := false
 var slice_closed := false
 
 func _ready() -> void:
@@ -81,13 +82,27 @@ func _enter_vicente_lopez_norte() -> void:
 	exterior.name = "VicenteLopezNorte"
 	add_child(exterior)
 	exterior.radio_requested.connect(_activate_radio)
+	exterior.general_paz_requested.connect(_reach_general_paz)
 	get_node("Chalet").queue_free()
 	player.position = Vector2(100, 670)
 	_refresh_hud("Nieve cerrada. Una radio transmite al norte.")
 
 func _activate_radio() -> void:
 	if progression.activate_radio():
+		get_node("VicenteLopezNorte").set_general_paz_available(true)
 		_refresh_hud("R-1 activa: la señal apunta hacia General Paz.")
+
+func _reach_general_paz() -> void:
+	if slice_closed:
+		return
+	if not progression.reach_general_paz():
+		_refresh_hud("La ruta a General Paz sigue bloqueada hasta activar R-1.")
+		return
+	_refresh_hud("Llegaste a General Paz.")
+	hud.show_terminal("General Paz")
+	slice_closed = true
+	player.velocity = Vector2.ZERO
+	player.set_physics_process(false)
 
 func _refresh_hud(status: String) -> void:
 	slice_state = progression.slice_state
@@ -95,9 +110,12 @@ func _refresh_hud(status: String) -> void:
 	selected_exit = progression.selected_exit
 	zone_title = progression.zone_title
 	radio_activated = progression.radio_activated
+	general_paz_reached = progression.general_paz_reached
 	hud.set_status(status)
 	hud.set_slice_state(slice_state)
-	if slice_state == ChaletProgression.RADIO_ACTIVADA:
+	if slice_state == ChaletProgression.GENERAL_PAZ_ALCANZADA:
+		hud.set_objective("General Paz reached.")
+	elif slice_state == ChaletProgression.RADIO_ACTIVADA:
 		hud.set_objective("Signal confirmed: head toward General Paz.")
 	elif slice_state == ChaletProgression.VICENTE_LOPEZ_NORTE:
 		hud.set_objective("Find and activate the R-1 neighborhood radio.")

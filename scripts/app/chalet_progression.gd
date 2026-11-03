@@ -8,6 +8,7 @@ const TRAJE_EQUIPADO := "traje_equipado"
 const EXTERIOR_INICIADO := "exterior_iniciado"
 const VICENTE_LOPEZ_NORTE := "vicente_lopez_norte"
 const RADIO_ACTIVADA := "radio_activada"
+const GENERAL_PAZ_ALCANZADA := "general_paz_alcanzada"
 const OBJETIVO_GENERAL_PAZ := "general_paz"
 
 const LONA := "lona"
@@ -24,6 +25,7 @@ var selected_exit := ""
 var zone_title := ""
 var slice_state := ENCERRADO
 var radio_activated := false
+var general_paz_reached := false
 var objective := ""
 
 func collect_material(material_id: String) -> bool:
@@ -63,4 +65,15 @@ func activate_radio() -> bool:
 	radio_activated = true
 	objective = OBJETIVO_GENERAL_PAZ
 	slice_state = RADIO_ACTIVADA
+	return true
+
+func can_reach_general_paz() -> bool:
+	return selected_exit == EXIT_VN and radio_activated and not general_paz_reached
+
+func reach_general_paz() -> bool:
+	if not can_reach_general_paz():
+		return false
+	general_paz_reached = true
+	slice_state = GENERAL_PAZ_ALCANZADA
+	objective = OBJETIVO_GENERAL_PAZ
 	return true
