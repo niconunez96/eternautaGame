@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/world/suit_material.tscn" id="1_material"]
 [ext_resource type="PackedScene" path="res://scenes/world/fabrication_station.tscn" id="2_station"]
 [ext_resource type="PackedScene" path="res://scenes/world/suit_exit.tscn" id="3_exit"]
+[ext_resource type="Texture2D" path="res://assets/kenney/characters/spritesheet.png" id="4_art"]
 
 [sub_resource type="RectangleShape2D" id="FloorShape"]
 size = Vector2(1280, 80)
@@ -16,9 +17,12 @@ size = Vector2(20, 640)
 position = Vector2(640, 760)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("FloorShape")
-[node name="Visual" type="Polygon2D" parent="Floor"]
-polygon = PackedVector2Array(-640, -40, 640, -40, 640, 40, -640, 40)
-color = Color(0.28, 0.22, 0.17, 1)
+[node name="Visual" type="Sprite2D" parent="Floor"]
+texture = ExtResource("4_art")
+region_enabled = true
+region_rect = Rect2(0, 0, 138, 21)
+texture_filter = 1
+scale = Vector2(9.3, 3.8)
 
 [node name="LeftWall" type="StaticBody2D" parent="."]
 position = Vector2(10, 400)

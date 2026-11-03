@@ -1,6 +1,7 @@
 extends Node2D
 
 const ChaletProgression = preload("res://scripts/app/chalet_progression.gd")
+const ChaletArt = preload("res://assets/kenney/characters/spritesheet.png")
 
 var player: CharacterBody2D
 var hud: CanvasLayer
@@ -129,10 +130,17 @@ func _refresh_hud(status: String) -> void:
 		hud.set_objective("Collect lona, sellado/guantes and máscara/filtro in any order.")
 
 func _render_background() -> void:
-	var background := ColorRect.new()
+	var background := TextureRect.new()
 	background.name = "ChaletInterior"
-	background.color = Color("233039")
+	var background_texture := AtlasTexture.new()
+	background_texture.atlas = ChaletArt
+	background_texture.region = Rect2(0, 0, 138, 63)
+	background.texture = background_texture
 	background.position = Vector2.ZERO
 	background.size = Vector2(1280, 800)
+	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	background.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	background.show_behind_parent = true
 	add_child(background)

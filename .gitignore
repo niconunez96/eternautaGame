@@ -1,5 +1,6 @@
 .godot/
 .import/
+*.import
 build/
 .gutconfig.json
 .gut_temp_directory/
