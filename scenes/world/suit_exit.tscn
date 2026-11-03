@@ -1,14 +1,10 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/suit_exit.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/kenney/characters/spritesheet.png" id="2_art"]
 
 [node name="SuitExit" type="Area2D" groups=["suit_exit", "chalet_interactable"]]
 script = ExtResource("1")
 
-[node name="Visual" type="Sprite2D" parent="."]
-texture = ExtResource("2_art")
-region_enabled = true
-region_rect = Rect2(377, 84, 21, 42)
-texture_filter = 1
-scale = Vector2(2, 2)
+[node name="Visual" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-30, -52, 30, -52, 30, 52, -30, 52)
+color = Color(0.75, 0.87, 0.96, 1)

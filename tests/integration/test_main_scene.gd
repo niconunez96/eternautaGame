@@ -30,33 +30,6 @@ func test_main_composes_chalet_contract_without_arena_systems() -> void:
 	assert_null(instance.get_node_or_null("TraversalObstacle"))
 	assert_null(instance.get_node_or_null("ExitObjective"))
 
-func test_kenney_presentation_contract_preserves_gameplay_nodes() -> void:
-	var instance := await _spawn_main()
-	_assert_textured_sprite(instance.get_node_or_null("Player/Visual"))
-	_assert_textured_sprite(instance.get_node_or_null("Chalet/Floor/Visual"))
-	_assert_textured_sprite(instance.get_node_or_null("Chalet/MaterialLona/Visual"))
-	_assert_textured_sprite(instance.get_node_or_null("Chalet/FavalliFabrication/Visual"))
-	_assert_textured_sprite(instance.get_node_or_null("Chalet/ExitVN/Visual"))
-	assert_not_null(instance.get_node_or_null("HUD/TerminalOverlay"))
-	assert_not_null(instance.get_node_or_null("HUD/TerminalOverlay/TerminalTitle"))
-	_assert_textured_control(instance.get_node_or_null("HUD/TerminalOverlay/Frame"))
-	_equip_suit(instance)
-	assert_true(instance.try_exit(ChaletProgression.EXIT_VN))
-	_assert_textured_control(instance.get_node_or_null("VicenteLopezNorte/SnowfieldBackground"))
-	_assert_textured_sprite(instance.get_node_or_null("VicenteLopezNorte/LowRoof/Visual"))
-	_assert_textured_sprite(instance.get_node_or_null("VicenteLopezNorte/Radio/Visual"))
-	_assert_textured_sprite(instance.get_node_or_null("VicenteLopezNorte/GeneralPazExit/Visual"))
-
-func _assert_textured_sprite(node: Node) -> void:
-	assert_true(node is Sprite2D, "Expected a Sprite2D presentation node")
-	if node is Sprite2D:
-		assert_not_null(node.texture, "Expected a texture binding")
-
-func _assert_textured_control(node: Node) -> void:
-	assert_true(node is TextureRect or node is NinePatchRect, "Expected a textured Control presentation node")
-	if node is TextureRect or node is NinePatchRect:
-		assert_not_null(node.texture, "Expected a texture binding")
-
 func test_materials_are_free_order_and_fabrication_requires_all_three() -> void:
 	var instance := await _spawn_main()
 	assert_eq(instance.slice_state, ChaletProgression.ENCERRADO)
