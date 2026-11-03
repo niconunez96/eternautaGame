@@ -43,29 +43,37 @@ func test_materials_are_free_order_and_fabrication_requires_all_three() -> void:
 	assert_true(instance.suit_equipped)
 	assert_eq(instance.slice_state, ChaletProgression.TRAJE_EQUIPADO)
 
-func test_exits_block_without_suit_and_close_with_the_selected_zone_title() -> void:
-	for exit_id in [ChaletProgression.EXIT_VN, ChaletProgression.EXIT_VS]:
-		var instance := await _spawn_main()
-		assert_false(instance.try_exit(exit_id))
-		assert_eq(instance.slice_state, ChaletProgression.ENCERRADO)
-		assert_string_contains(instance.get_node("HUD/StatusLabel").text, "lethal without the insulated suit")
-		for material in ChaletProgression.MATERIALS:
-			instance.collect_material(material)
-		instance.try_craft_suit()
-		assert_true(instance.try_exit(exit_id))
-		assert_eq(instance.slice_state, ChaletProgression.EXTERIOR_INICIADO)
-		assert_eq(instance.selected_exit, exit_id)
-		var expected_title := "Vicente López norte" if exit_id == ChaletProgression.EXIT_VN else "Vicente López sur"
-		assert_eq(instance.zone_title, expected_title)
-		assert_true(instance.get_node("HUD/TerminalOverlay").visible)
-		assert_string_contains(instance.get_node("HUD/TerminalOverlay/TerminalTitle").text, expected_title)
-		var player_position: Vector2 = instance.player.global_position
-		instance.player.velocity = Vector2(300.0, 0.0)
-		Input.action_press("move_right")
-		Input.action_press("interact")
-		await get_tree().physics_frame
-		await get_tree().process_frame
-		Input.action_release("move_right")
-		Input.action_release("interact")
-		assert_eq(instance.player.global_position, player_position)
-		assert_eq(instance.selected_exit, exit_id)
+func _equip_suit(instance: Node2D) -> void:
+	for material in ChaletProgression.MATERIALS:
+		instance.collect_material(material)
+	assert_true(instance.try_craft_suit())
+
+func test_north_exit_stays_playable_and_radio_sets_general_paz_objective() -> void:
+	var instance := await _spawn_main()
+	assert_false(instance.try_exit(ChaletProgression.EXIT_VN))
+	assert_eq(instance.slice_state, ChaletProgression.ENCERRADO)
+	assert_string_contains(instance.get_node("HUD/StatusLabel").text, "lethal without the insulated suit")
+	_equip_suit(instance)
+	assert_true(instance.try_exit(ChaletProgression.EXIT_VN))
+	assert_eq(instance.selected_exit, ChaletProgression.EXIT_VN)
+	assert_eq(instance.slice_state, "vicente_lopez_norte")
+	assert_not_null(instance.get_node_or_null("VicenteLopezNorte"))
+	assert_false(instance.slice_closed)
+	assert_false(instance.get_node("HUD/TerminalOverlay").visible)
+	assert_true(instance.player.is_physics_processing())
+	instance.get_node("VicenteLopezNorte").emit_signal("radio_requested")
+	assert_true(instance.progression.radio_activated)
+	assert_eq(instance.slice_state, "radio_activada")
+	assert_string_contains(instance.get_node("HUD/ObjectiveLabel").text, "General Paz")
+
+func test_south_exit_stays_terminal_and_disables_player() -> void:
+	var instance := await _spawn_main()
+	_equip_suit(instance)
+	assert_true(instance.try_exit(ChaletProgression.EXIT_VS))
+	assert_eq(instance.slice_state, ChaletProgression.EXTERIOR_INICIADO)
+	assert_eq(instance.selected_exit, ChaletProgression.EXIT_VS)
+	assert_eq(instance.zone_title, "Vicente López sur")
+	assert_true(instance.slice_closed)
+	assert_true(instance.get_node("HUD/TerminalOverlay").visible)
+	assert_string_contains(instance.get_node("HUD/TerminalOverlay/TerminalTitle").text, "Vicente López sur")
+	assert_false(instance.player.is_physics_processing())

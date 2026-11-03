@@ -6,6 +6,9 @@ const COMPONENTE_OBTENIDO := "componente_obtenido"
 const MATERIALES_COMPLETOS := "materiales_completos"
 const TRAJE_EQUIPADO := "traje_equipado"
 const EXTERIOR_INICIADO := "exterior_iniciado"
+const VICENTE_LOPEZ_NORTE := "vicente_lopez_norte"
+const RADIO_ACTIVADA := "radio_activada"
+const OBJETIVO_GENERAL_PAZ := "general_paz"
 
 const LONA := "lona"
 const SELLADO_GUANTES := "sellado_guantes"
@@ -20,6 +23,8 @@ var suit_equipped := false
 var selected_exit := ""
 var zone_title := ""
 var slice_state := ENCERRADO
+var radio_activated := false
+var objective := ""
 
 func collect_material(material_id: String) -> bool:
 	if not MATERIALS.has(material_id) or materials.has(material_id):
@@ -49,5 +54,13 @@ func take_exit(exit_id: String) -> bool:
 		return false
 	selected_exit = exit_id
 	zone_title = "Vicente López norte" if exit_id == EXIT_VN else "Vicente López sur"
-	slice_state = EXTERIOR_INICIADO
+	slice_state = VICENTE_LOPEZ_NORTE if exit_id == EXIT_VN else EXTERIOR_INICIADO
+	return true
+
+func activate_radio() -> bool:
+	if selected_exit != EXIT_VN or radio_activated:
+		return false
+	radio_activated = true
+	objective = OBJETIVO_GENERAL_PAZ
+	slice_state = RADIO_ACTIVADA
 	return true
