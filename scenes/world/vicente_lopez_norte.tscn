@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/vicente_lopez_norte.gd" id="1_scene"]
 [ext_resource type="Script" path="res://scripts/world/neighborhood_radio.gd" id="2_radio"]
 [ext_resource type="Script" path="res://scripts/world/general_paz_exit.gd" id="3_general_paz"]
-[ext_resource type="Texture2D" path="res://assets/kenney/characters/spritesheet.png" id="5_art"]
 
 [sub_resource type="RectangleShape2D" id="FloorShape"]
 size = Vector2(1280, 80)
@@ -11,30 +10,19 @@ size = Vector2(1280, 80)
 [sub_resource type="RectangleShape2D" id="LedgeShape"]
 size = Vector2(180, 30)
 
-[sub_resource type="AtlasTexture" id="SnowfieldTexture"]
-atlas = ExtResource("5_art")
-region = Rect2(0, 378, 138, 63)
-
 [node name="VicenteLopezNorte" type="Node2D"]
 script = ExtResource("1_scene")
 
-[node name="SnowfieldBackground" type="TextureRect" parent="."]
+[node name="SnowfieldBackground" type="ColorRect" parent="."]
 offset_right = 1280.0
 offset_bottom = 800.0
-texture = SubResource("SnowfieldTexture")
-expand_mode = 1
-stretch_mode = 6
-texture_filter = 1
 mouse_filter = 2
+color = Color(0.2, 0.29, 0.36, 1)
 show_behind_parent = true
 
-[node name="Snowbank" type="Sprite2D" parent="."]
-position = Vector2(640, 732)
-texture = ExtResource("5_art")
-region_enabled = true
-region_rect = Rect2(0, 378, 138, 21)
-texture_filter = 1
-scale = Vector2(9.3, 2.6)
+[node name="Snowbank" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 705, 1280, 705, 1280, 760, 0, 760)
+color = Color(0.85, 0.91, 0.95, 1)
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(640, 760)
@@ -45,12 +33,9 @@ shape = SubResource("FloorShape")
 position = Vector2(390, 645)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LowRoof"]
 shape = SubResource("LedgeShape")
-[node name="Visual" type="Sprite2D" parent="LowRoof"]
-texture = ExtResource("5_art")
-region_enabled = true
-region_rect = Rect2(0, 378, 84, 21)
-texture_filter = 1
-scale = Vector2(2.15, 1.45)
+[node name="Visual" type="Polygon2D" parent="LowRoof"]
+polygon = PackedVector2Array(-90, -15, 90, -15, 90, 15, -90, 15)
+color = Color(0.34, 0.4, 0.43, 1)
 
 [node name="LocationLabel" type="Label" parent="."]
 position = Vector2(70, 70)
@@ -59,12 +44,9 @@ text = "Vicente López norte\nNieve cerrada"
 [node name="Radio" type="Area2D" parent="." groups=["chalet_interactable"]]
 position = Vector2(650, 675)
 script = ExtResource("2_radio")
-[node name="Visual" type="Sprite2D" parent="Radio"]
-texture = ExtResource("5_art")
-region_enabled = true
-region_rect = Rect2(231, 189, 42, 21)
-texture_filter = 1
-scale = Vector2(1.5, 1.5)
+[node name="Visual" type="Polygon2D" parent="Radio"]
+polygon = PackedVector2Array(-32, -24, 32, -24, 32, 24, -32, 24)
+color = Color(0.87, 0.68, 0.25, 1)
 [node name="Label" type="Label" parent="Radio"]
 position = Vector2(-72, -60)
 text = "R-1 / K o X"
@@ -72,12 +54,9 @@ text = "R-1 / K o X"
 [node name="GeneralPazExit" type="Area2D" parent="." groups=["chalet_interactable"]]
 position = Vector2(1160, 675)
 script = ExtResource("3_general_paz")
-[node name="Visual" type="Sprite2D" parent="GeneralPazExit"]
-texture = ExtResource("5_art")
-region_enabled = true
-region_rect = Rect2(377, 84, 21, 42)
-texture_filter = 1
-scale = Vector2(1.7, 1.7)
+[node name="Visual" type="Polygon2D" parent="GeneralPazExit"]
+polygon = PackedVector2Array(-36, -36, 36, -36, 36, 36, -36, 36)
+color = Color(0.53, 0.72, 0.86, 1)
 [node name="Label" type="Label" parent="GeneralPazExit"]
 position = Vector2(-90, -68)
 text = "General Paz bloqueada"

@@ -32,10 +32,6 @@ The slice intentionally has no combat, health, respawn/checkpoints, dash, double
 
 `make qa-visual` is intentionally a placeholder until screenshots are captured in CI. Visual baselines must come from CI (not local drivers/fonts), then Godot QA can diff them under Xvfb/Mesa.
 
-## Visual assets
-
-Presentation assets live under `assets/kenney/`. This slice uses a curated subset of Kenney’s [Platformer Art: Pixel Redux](https://kenney.nl/assets/platformer-art-pixel-redux), released under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/); see `assets/kenney/README.md` for the retained filenames and provenance. Gameplay roots, collisions, interaction groups, and HUD paths remain independent from those visual nodes.
-
 ## Steam Deck note
 
 This is controller-first and exports native Linux x86_64. It is **not** Steam Deck Verified: Game Mode, suspend/resume and physical-controller QA remain manual.
