@@ -32,8 +32,17 @@
     {"type": "input", "action": "move_right", "pressed": false},
     {"type": "input", "action": "interact", "pressed": true, "auto_release": true},
     {"type": "assert", "node_path": "/root/Main", "property": "selected_exit", "expected": "VN", "operator": "eq"},
-    {"type": "assert", "node_path": "/root/Main", "property": "slice_state", "expected": "exterior_iniciado", "operator": "eq"},
-    {"type": "assert", "node_path": "/root/Main/HUD/TerminalOverlay", "property": "visible", "expected": true, "operator": "eq"},
-    {"type": "assert", "text": "Vicente López norte", "partial": true}
+    {"type": "assert", "node_path": "/root/Main", "property": "slice_state", "expected": "vicente_lopez_norte", "operator": "eq"},
+    {"type": "assert", "node_path": "/root/Main/HUD/TerminalOverlay", "property": "visible", "expected": false, "operator": "eq"},
+    {"type": "input", "action": "move_right", "pressed": true, "auto_release": false},
+    {"type": "wait", "seconds": 0.55},
+    {"type": "input", "action": "jump", "pressed": true, "auto_release": true},
+    {"type": "wait", "seconds": 1.6},
+    {"type": "input", "action": "move_right", "pressed": false},
+    {"type": "input", "action": "interact", "pressed": true, "auto_release": true},
+    {"type": "assert", "node_path": "/root/Main", "property": "radio_activated", "expected": true, "operator": "eq"},
+    {"type": "assert", "node_path": "/root/Main", "property": "slice_state", "expected": "radio_activada", "operator": "eq"},
+    {"type": "assert", "node_path": "/root/Main/VicenteLopezNorte/Radio", "property": "activated", "expected": true, "operator": "eq"},
+    {"type": "assert", "text": "General Paz", "partial": true}
   ]
 }

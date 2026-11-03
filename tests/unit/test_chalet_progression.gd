@@ -55,7 +55,7 @@ func test_crafting_equips_the_suit_and_unlocks_both_exits() -> void:
 	assert_true(progression.can_exit(ChaletProgression.EXIT_VN))
 	assert_true(progression.can_exit(ChaletProgression.EXIT_VS))
 
-func test_exits_are_blocked_before_suit_and_close_with_distinct_titles_afterward() -> void:
+func test_exits_are_blocked_before_suit_and_keep_distinct_titles_afterward() -> void:
 	for exit_id in [ChaletProgression.EXIT_VN, ChaletProgression.EXIT_VS]:
 		var progression = ChaletProgression.new()
 		assert_false(progression.take_exit(exit_id))
@@ -63,6 +63,33 @@ func test_exits_are_blocked_before_suit_and_close_with_distinct_titles_afterward
 			progression.collect_material(material)
 		progression.craft_suit()
 		assert_true(progression.take_exit(exit_id))
-		assert_eq(progression.slice_state, ChaletProgression.EXTERIOR_INICIADO)
 		assert_eq(progression.selected_exit, exit_id)
 		assert_eq(progression.zone_title, "Vicente López norte" if exit_id == ChaletProgression.EXIT_VN else "Vicente López sur")
+		var expected_state := "vicente_lopez_norte" if exit_id == ChaletProgression.EXIT_VN else ChaletProgression.EXTERIOR_INICIADO
+		assert_eq(progression.slice_state, expected_state)
+
+func test_radio_requires_vn_and_activates_only_once() -> void:
+	var progression = ChaletProgression.new()
+	assert_false(progression.get("radio_activated") == true)
+	assert_true(progression.has_method("activate_radio"))
+	assert_false(progression.call("activate_radio"))
+	for material in ChaletProgression.MATERIALS:
+		progression.collect_material(material)
+	progression.craft_suit()
+	assert_true(progression.take_exit(ChaletProgression.EXIT_VN))
+	assert_eq(progression.slice_state, "vicente_lopez_norte")
+	assert_true(progression.call("activate_radio"))
+	assert_true(progression.get("radio_activated") == true)
+	assert_eq(progression.slice_state, "radio_activada")
+	assert_eq(progression.get("objective"), "general_paz")
+	assert_false(progression.call("activate_radio"))
+	assert_eq(progression.get("objective"), "general_paz")
+
+func test_vs_route_cannot_activate_radio() -> void:
+	var progression = ChaletProgression.new()
+	for material in ChaletProgression.MATERIALS:
+		progression.collect_material(material)
+	progression.craft_suit()
+	assert_true(progression.take_exit(ChaletProgression.EXIT_VS))
+	assert_false(progression.has_method("activate_radio") and progression.call("activate_radio"))
+	assert_false(progression.get("radio_activated") == true)
