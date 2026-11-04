@@ -154,7 +154,6 @@ func _refresh_hud(status: String) -> void:
 	radio_activated = progression.radio_activated
 	general_paz_reached = progression.general_paz_reached
 	hud.set_status(status)
-	hud.set_slice_state(slice_state)
 	if slice_state == ChaletProgression.GENERAL_PAZ_ALCANZADA:
 		hud.set_objective("General Paz reached.")
 	elif slice_state == ChaletProgression.RADIO_ACTIVADA:

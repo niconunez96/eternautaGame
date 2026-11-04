@@ -10,9 +10,12 @@ func _spawn_main() -> Node2D:
 	await get_tree().physics_frame
 	return instance
 
-func test_main_composes_chalet_contract_without_arena_systems() -> void:
+func test_main_composes_polished_level_contract_without_arena_systems() -> void:
 	var instance := await _spawn_main()
 	assert_not_null(instance.get_node_or_null("Player"))
+	assert_not_null(instance.get_node_or_null("Player/Camera2D"))
+	assert_not_null(instance.get_node_or_null("Chalet/Presentation"))
+	assert_null(instance.get_node_or_null("Chalet/RoomLabels"))
 	assert_not_null(instance.get_node_or_null("Chalet/MaterialLona"))
 	assert_not_null(instance.get_node_or_null("Chalet/MaterialSelladoGuantes"))
 	assert_not_null(instance.get_node_or_null("Chalet/MaterialMascaraFiltro"))
@@ -21,7 +24,8 @@ func test_main_composes_chalet_contract_without_arena_systems() -> void:
 	assert_not_null(instance.get_node_or_null("Chalet/ExitVS"))
 	assert_not_null(instance.get_node_or_null("HUD/StatusLabel"))
 	assert_not_null(instance.get_node_or_null("HUD/ObjectiveLabel"))
-	assert_not_null(instance.get_node_or_null("HUD/SliceStateLabel"))
+	assert_null(instance.get_node_or_null("HUD/SliceStateLabel"))
+	assert_null(instance.get_node_or_null("HUD/ControlsLabel"))
 	assert_not_null(instance.get_node_or_null("HUD/TerminalOverlay"))
 	assert_not_null(instance.get_node_or_null("HUD/TerminalOverlay/TerminalTitle"))
 	assert_null(instance.get_node_or_null("BasicEnemy"))

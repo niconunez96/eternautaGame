@@ -29,28 +29,11 @@ position = Vector2(10, 400)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
 shape = SubResource("WallShape")
 
-[node name="RoomLabels" type="Node2D" parent="."]
-[node name="LivingRoom" type="Label" parent="RoomLabels"]
-position = Vector2(80, 610)
-text = "Estar / comedor\nElena y Martita"
-[node name="Kitchen" type="Label" parent="RoomLabels"]
-position = Vector2(255, 610)
-text = "Cocina\nLona"
-[node name="Tools" type="Label" parent="RoomLabels"]
-position = Vector2(485, 610)
-text = "Cuarto de herramientas\nSellado + guantes"
-[node name="Loft" type="Label" parent="RoomLabels"]
-position = Vector2(705, 610)
-text = "Altillo\nMáscara + filtro"
-[node name="Favalli" type="Label" parent="RoomLabels"]
-position = Vector2(875, 610)
-text = "Favalli\nMesa de fabricación"
-[node name="NorthExit" type="Label" parent="RoomLabels"]
-position = Vector2(1080, 530)
-text = "Ventana / techo bajo\nVN"
-[node name="SouthExit" type="Label" parent="RoomLabels"]
-position = Vector2(1180, 610)
-text = "Puerta frontal\nVS"
+[node name="Presentation" type="Node2D" parent="."]
+[node name="WarmWindowGlow" type="PointLight2D" parent="Presentation"]
+position = Vector2(1000, 560)
+energy = 0.45
+color = Color(1, 0.68, 0.34, 1)
 
 [node name="MaterialLona" parent="." instance=ExtResource("1_material")]
 position = Vector2(300, 675)
