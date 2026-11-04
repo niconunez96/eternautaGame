@@ -45,7 +45,7 @@ func _process(delta: float) -> void:
 		return
 	if selected_exit == ChaletProgression.EXIT_VN:
 		survival.tick(delta * 4.0, in_shelter)
-		hud.set_exposure(survival.exposure, survival.risk_label(), true)
+		hud.set_exposure(survival.exposure, survival.risk_label(), not in_shelter)
 		if survival.is_lethal():
 			_refresh_hud("La nevada atravesó el sellado. No llegaste a refugio.")
 			hud.show_terminal("La nieve no perdona", "La exposición rompió el sellado antes de alcanzar refugio.")
@@ -119,6 +119,7 @@ func _activate_radio() -> void:
 
 func _on_shelter_changed(is_inside: bool) -> void:
 	in_shelter = is_inside
+	hud.set_exposure(survival.exposure, survival.risk_label(), not in_shelter)
 	if is_inside:
 		shelter_visited = true
 		_refresh_hud("Refugio cálido: la exposición baja.")
