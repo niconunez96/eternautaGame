@@ -16,24 +16,18 @@ func _draw_chalet() -> void:
 	draw_rect(Rect2(0, 0, 1280, 800), Color("1c2634"))
 	draw_rect(Rect2(0, 110, 1280, 580), Color("3a2a28"))
 	draw_rect(Rect2(0, 590, 1280, 120), Color("261b1c"))
-	for x in range(40, 1280, 160):
-		draw_rect(Rect2(x, 150, 110, 320), Color("563b32"))
-		draw_rect(Rect2(x + 12, 170, 86, 120), Color("8c9a9b"))
-		draw_rect(Rect2(x + 18, 176, 74, 108), Color("b7d2d4"))
-		draw_line(Vector2(x + 55, 176), Vector2(x + 55, 284), Color("5b4a46"), 4.0)
-		draw_line(Vector2(x + 18, 230), Vector2(x + 92, 230), Color("5b4a46"), 4.0)
+	for x in range(0, 1280, 128):
+		draw_rect(Rect2(x, 138, 6, 540), Color("2b2021"))
+		draw_line(Vector2(x + 18, 470), Vector2(x + 108, 470), Color("684638"), 3.0)
 	for x in range(0, 1280, 64):
 		draw_rect(Rect2(x, 675, 60, 12), Color("704d3d"))
-	draw_rect(Rect2(885, 535, 160, 105), Color("3f2b25"))
-	draw_rect(Rect2(902, 552, 126, 18), Color("d3944e"))
-	draw_rect(Rect2(920, 570, 18, 55), Color("c2713d"))
-	draw_rect(Rect2(978, 570, 18, 55), Color("c2713d"))
-	draw_circle(Vector2(960, 515), 42, Color(1.0, 0.55, 0.2, 0.12))
-	for x in [120, 172]:
-		draw_circle(Vector2(x, 640), 20, Color("17202a"))
-		draw_rect(Rect2(x - 14, 650, 28, 42), Color("263442"))
-	draw_rect(Rect2(1080, 465, 90, 210), Color("26303b"))
-	draw_rect(Rect2(1100, 500, 50, 145), Color("d7e5e8"))
+	draw_rect(Rect2(38, 500, 175, 12), Color("4a302c"))
+	draw_rect(Rect2(52, 515, 30, 92), Color("4a302c"))
+	draw_rect(Rect2(168, 515, 30, 92), Color("4a302c"))
+	draw_rect(Rect2(250, 530, 120, 95), Color("3d2c29"))
+	draw_rect(Rect2(264, 546, 92, 16), Color("b7844c"))
+	draw_rect(Rect2(278, 570, 64, 40), Color("694735"))
+	draw_circle(Vector2(960, 515), 68, Color(1.0, 0.55, 0.2, 0.10))
 
 func _draw_street() -> void:
 	draw_rect(Rect2(0, 0, 1280, 800), Color("172633"))

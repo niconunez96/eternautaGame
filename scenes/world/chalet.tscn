@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/presentation/world_backdrop.gd" id="1_backdrop"]
 [ext_resource type="PackedScene" path="res://scenes/world/suit_material.tscn" id="1_material"]
 [ext_resource type="PackedScene" path="res://scenes/world/fabrication_station.tscn" id="2_station"]
 [ext_resource type="PackedScene" path="res://scenes/world/suit_exit.tscn" id="3_exit"]
 [ext_resource type="Texture2D" path="res://assets/kenney/characters/spritesheet.png" id="4_art"]
+[ext_resource type="Script" path="res://scripts/presentation/interior_prop.gd" id="5_prop"]
 
 [sub_resource type="RectangleShape2D" id="FloorShape"]
 size = Vector2(1280, 80)
@@ -38,6 +39,34 @@ script = ExtResource("1_backdrop")
 position = Vector2(1000, 560)
 energy = 0.45
 color = Color(1, 0.68, 0.34, 1)
+[node name="Door" type="Node2D" parent="Presentation"]
+position = Vector2(1135, 560)
+script = ExtResource("5_prop")
+role = "door"
+[node name="Window" type="Node2D" parent="Presentation"]
+position = Vector2(715, 315)
+script = ExtResource("5_prop")
+role = "window"
+[node name="Worktable" type="Node2D" parent="Presentation"]
+position = Vector2(960, 650)
+script = ExtResource("5_prop")
+role = "worktable"
+[node name="FamilySilhouette" type="Node2D" parent="Presentation"]
+position = Vector2(160, 600)
+script = ExtResource("5_prop")
+role = "family"
+[node name="CanvasRoll" type="Node2D" parent="Presentation"]
+position = Vector2(300, 635)
+script = ExtResource("5_prop")
+role = "canvas"
+[node name="GloveSeal" type="Node2D" parent="Presentation"]
+position = Vector2(535, 640)
+script = ExtResource("5_prop")
+role = "gloves"
+[node name="FilterCase" type="Node2D" parent="Presentation"]
+position = Vector2(760, 640)
+script = ExtResource("5_prop")
+role = "filter"
 
 [node name="MaterialLona" parent="." instance=ExtResource("1_material")]
 position = Vector2(300, 675)
