@@ -117,6 +117,7 @@ func test_north_exit_offers_a_sheltered_route_after_r1() -> void:
 	assert_true(instance.slice_closed)
 	assert_true(instance.get_node("HUD/TerminalOverlay").visible)
 	assert_string_contains(instance.get_node("HUD/TerminalOverlay/TerminalTitle").text, "General Paz")
+	assert_string_contains(instance.get_node("HUD/TerminalOverlay/TerminalSubtitle").text, "conservaste el filtro")
 	assert_false(instance.player.is_physics_processing())
 
 func test_shortcut_requires_and_consumes_the_spare_filter() -> void:

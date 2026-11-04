@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var exposure_label: Label = $ExposureLabel
 @onready var terminal_overlay: ColorRect = $TerminalOverlay
 @onready var terminal_title: Label = $TerminalOverlay/TerminalTitle
+@onready var terminal_subtitle: Label = $TerminalOverlay/TerminalSubtitle
 
 func set_status(message: String) -> void:
 	status_label.text = message
@@ -16,6 +17,7 @@ func set_exposure(value: float, risk: String, active: bool) -> void:
 	exposure_label.visible = active
 	exposure_label.text = "EXPOSICIÓN %d%% · %s" % [roundi(value), risk.to_upper()]
 
-func show_terminal(title: String) -> void:
+func show_terminal(title: String, consequence: String) -> void:
 	terminal_title.text = title
+	terminal_subtitle.text = consequence
 	terminal_overlay.show()

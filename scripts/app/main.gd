@@ -48,7 +48,7 @@ func _process(delta: float) -> void:
 		hud.set_exposure(survival.exposure, survival.risk_label(), true)
 		if survival.is_lethal():
 			_refresh_hud("La nevada atravesó el sellado. No llegaste a refugio.")
-			hud.show_terminal("La nieve no perdona")
+			hud.show_terminal("La nieve no perdona", "La exposición rompió el sellado antes de alcanzar refugio.")
 			slice_closed = true
 			player.velocity = Vector2.ZERO
 			player.set_physics_process(false)
@@ -90,7 +90,7 @@ func try_exit(exit_id: String) -> bool:
 		_enter_vicente_lopez_norte()
 		return true
 	_refresh_hud("First step into the snow. Elena and Martita remain at the chalet.")
-	hud.show_terminal(zone_title)
+	hud.show_terminal(zone_title, "El primer paso al sur abre una ruta distinta, todavía cubierta por la nevada.")
 	slice_closed = true
 	player.velocity = Vector2.ZERO
 	player.set_physics_process(false)
@@ -146,7 +146,7 @@ func _complete_general_paz(status: String) -> void:
 	if not progression.reach_general_paz():
 		return
 	_refresh_hud(status)
-	hud.show_terminal("General Paz")
+	hud.show_terminal("General Paz", status)
 	slice_closed = true
 	player.velocity = Vector2.ZERO
 	player.set_physics_process(false)
