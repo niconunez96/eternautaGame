@@ -1,11 +1,16 @@
 extends Node2D
 
 const ChaletProgression = preload("res://scripts/app/chalet_progression.gd")
+const SurvivalState = preload("res://scripts/app/survival_state.gd")
 const ChaletArt = preload("res://assets/kenney/characters/spritesheet.png")
+const ROUTE_NONE := ""
+const ROUTE_SAFE := "safe"
+const ROUTE_SHORTCUT := "shortcut"
 
 var player: CharacterBody2D
 var hud: CanvasLayer
 var progression := ChaletProgression.new()
+var survival := SurvivalState.new()
 var slice_state := ChaletProgression.ENCERRADO
 var suit_equipped := false
 var selected_exit := ""
@@ -13,6 +18,9 @@ var zone_title := ""
 var radio_activated := false
 var general_paz_reached := false
 var slice_closed := false
+var in_shelter := false
+var route_taken := ROUTE_NONE
+var filter_consumed := false
 
 func _ready() -> void:
 	_render_background()
@@ -32,9 +40,19 @@ func _ready() -> void:
 		exit_node.exit_requested.connect(try_exit)
 	_refresh_hud("Favalli needs three materials for an insulated suit.")
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if slice_closed:
 		return
+	if selected_exit == ChaletProgression.EXIT_VN:
+		survival.tick(delta * 4.0, in_shelter)
+		hud.set_exposure(survival.exposure, survival.risk_label(), true)
+		if survival.is_lethal():
+			_refresh_hud("La nevada atravesó el sellado. No llegaste a refugio.")
+			hud.show_terminal("La nieve no perdona")
+			slice_closed = true
+			player.velocity = Vector2.ZERO
+			player.set_physics_process(false)
+			return
 	if Input.is_action_just_pressed("interact"):
 		_interact_with_nearest()
 
@@ -83,23 +101,46 @@ func _enter_vicente_lopez_norte() -> void:
 	exterior.name = "VicenteLopezNorte"
 	add_child(exterior)
 	exterior.radio_requested.connect(_activate_radio)
-	exterior.general_paz_requested.connect(_reach_general_paz)
+	exterior.shelter_changed.connect(_on_shelter_changed)
+	exterior.shortcut_requested.connect(_take_shortcut)
+	exterior.safe_route_requested.connect(_take_safe_route)
 	get_node("Chalet").queue_free()
 	player.position = Vector2(100, 670)
+	in_shelter = false
+	route_taken = ROUTE_NONE
+	filter_consumed = false
 	_refresh_hud("Nieve cerrada. Una radio transmite al norte.")
 
 func _activate_radio() -> void:
 	if progression.activate_radio():
-		get_node("VicenteLopezNorte").set_general_paz_available(true)
-		_refresh_hud("R-1 activa: la señal apunta hacia General Paz.")
+		get_node("VicenteLopezNorte").set_routes_available(true)
+		_refresh_hud("R-1 activa: elegí el atajo expuesto o el desvío cubierto.")
 
-func _reach_general_paz() -> void:
-	if slice_closed:
+func _on_shelter_changed(is_inside: bool) -> void:
+	in_shelter = is_inside
+	if is_inside:
+		_refresh_hud("Refugio cálido: la exposición baja.")
+
+func _take_shortcut() -> void:
+	if slice_closed or not progression.radio_activated or not route_taken.is_empty():
 		return
+	if not survival.use_spare_filter():
+		_refresh_hud("Sin filtro: volvé al refugio y tomá el desvío cubierto.")
+		return
+	filter_consumed = true
+	route_taken = ROUTE_SHORTCUT
+	_complete_general_paz("Atajo expuesto: gastaste el filtro de repuesto.")
+
+func _take_safe_route() -> void:
+	if slice_closed or not progression.radio_activated or not route_taken.is_empty():
+		return
+	route_taken = ROUTE_SAFE
+	_complete_general_paz("Desvío cubierto: conservaste el filtro de repuesto.")
+
+func _complete_general_paz(status: String) -> void:
 	if not progression.reach_general_paz():
-		_refresh_hud("La ruta a General Paz sigue bloqueada hasta activar R-1.")
 		return
-	_refresh_hud("Llegaste a General Paz.")
+	_refresh_hud(status)
 	hud.show_terminal("General Paz")
 	slice_closed = true
 	player.velocity = Vector2.ZERO
@@ -117,7 +158,7 @@ func _refresh_hud(status: String) -> void:
 	if slice_state == ChaletProgression.GENERAL_PAZ_ALCANZADA:
 		hud.set_objective("General Paz reached.")
 	elif slice_state == ChaletProgression.RADIO_ACTIVADA:
-		hud.set_objective("Signal confirmed: head toward General Paz.")
+		hud.set_objective("Elegí: atajo expuesto con filtro o desvío cubierto por el refugio.")
 	elif slice_state == ChaletProgression.VICENTE_LOPEZ_NORTE:
 		hud.set_objective("Find and activate the R-1 neighborhood radio.")
 	elif slice_state == ChaletProgression.MATERIALES_COMPLETOS:

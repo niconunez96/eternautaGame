@@ -13,6 +13,8 @@ test: import
 qa: import
 	mkdir -p build
 	$(GODOT) --headless --path . -s res://addons/godot_qa/runner.gd -- --scenario res://tests/qa/chalet_vn.json --report build/qa-chalet-vn.json --junit build/qa-chalet-vn.xml
+	$(GODOT) --headless --path . -s res://addons/godot_qa/runner.gd -- --scenario res://tests/qa/chalet_vn_shortcut.json --report build/qa-chalet-vn-shortcut.json --junit build/qa-chalet-vn-shortcut.xml
+	$(GODOT) --headless --path . -s res://addons/godot_qa/runner.gd -- --scenario res://tests/qa/chalet_vn_lethal.json --report build/qa-chalet-vn-lethal.json --junit build/qa-chalet-vn-lethal.xml
 	$(GODOT) --headless --path . -s res://addons/godot_qa/runner.gd -- --scenario res://tests/qa/chalet_vs.json --report build/qa-chalet-vs.json --junit build/qa-chalet-vs.xml
 
 qa-visual: import

@@ -4,8 +4,9 @@ extends Area2D
 var available := false
 
 func interact() -> void:
-	get_parent().request_general_paz()
+	if available:
+		get_parent().request_safe_route()
 
 func set_available(value: bool) -> void:
 	available = value
-	$Label.text = "General Paz / K o X" if available else "General Paz bloqueada"
+	$Label.text = "DESVÍO CUBIERTO · General Paz / K o X" if available else "DESVÍO CUBIERTO BLOQUEADO"

@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/vicente_lopez_norte.gd" id="1_scene"]
 [ext_resource type="Script" path="res://scripts/world/neighborhood_radio.gd" id="2_radio"]
 [ext_resource type="Script" path="res://scripts/world/general_paz_exit.gd" id="3_general_paz"]
+[ext_resource type="Script" path="res://scripts/world/filter_shortcut.gd" id="4_shortcut"]
 [ext_resource type="Texture2D" path="res://assets/kenney/characters/spritesheet.png" id="5_art"]
 
 [sub_resource type="RectangleShape2D" id="FloorShape"]
@@ -10,6 +11,9 @@ size = Vector2(1280, 80)
 
 [sub_resource type="RectangleShape2D" id="LedgeShape"]
 size = Vector2(180, 30)
+
+[sub_resource type="RectangleShape2D" id="ShelterShape"]
+size = Vector2(220, 180)
 
 [sub_resource type="AtlasTexture" id="SnowfieldTexture"]
 atlas = ExtResource("5_art")
@@ -56,6 +60,19 @@ scale = Vector2(2.15, 1.45)
 position = Vector2(70, 70)
 text = "Vicente López norte\nNieve cerrada"
 
+[node name="Shelter" type="Area2D" parent="."]
+position = Vector2(855, 650)
+monitoring = true
+monitorable = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shelter"]
+shape = SubResource("ShelterShape")
+[node name="WarmLight" type="PointLight2D" parent="Shelter"]
+energy = 0.6
+color = Color(1, 0.72, 0.38, 1)
+[node name="Label" type="Label" parent="Shelter"]
+position = Vector2(-100, -110)
+text = "REFUGIO · la exposición baja"
+
 [node name="Radio" type="Area2D" parent="." groups=["chalet_interactable"]]
 position = Vector2(650, 675)
 script = ExtResource("2_radio")
@@ -69,6 +86,19 @@ scale = Vector2(1.5, 1.5)
 position = Vector2(-72, -60)
 text = "R-1 / K o X"
 
+[node name="ShortcutExit" type="Area2D" parent="." groups=["chalet_interactable"]]
+position = Vector2(1020, 675)
+script = ExtResource("4_shortcut")
+[node name="Visual" type="Sprite2D" parent="ShortcutExit"]
+texture = ExtResource("5_art")
+region_enabled = true
+region_rect = Rect2(273, 189, 21, 21)
+texture_filter = 1
+scale = Vector2(1.7, 1.7)
+[node name="Label" type="Label" parent="ShortcutExit"]
+position = Vector2(-105, -68)
+text = "ATAJO BLOQUEADO"
+
 [node name="GeneralPazExit" type="Area2D" parent="." groups=["chalet_interactable"]]
 position = Vector2(1160, 675)
 script = ExtResource("3_general_paz")
@@ -80,4 +110,4 @@ texture_filter = 1
 scale = Vector2(1.7, 1.7)
 [node name="Label" type="Label" parent="GeneralPazExit"]
 position = Vector2(-90, -68)
-text = "General Paz bloqueada"
+text = "DESVÍO CUBIERTO BLOQUEADO"

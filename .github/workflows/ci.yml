@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        route: [chalet_vn, chalet_vs]
+        route: [chalet_vn, chalet_vn_shortcut, chalet_vn_lethal, chalet_vs]
     steps:
       - uses: actions/checkout@v4
       - name: Run Chalet ${{ matrix.route }} playtest
