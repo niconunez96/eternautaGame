@@ -8,7 +8,7 @@
     {"type": "input", "action": "interact", "pressed": true, "auto_release": true},
     {"type": "assert", "node_path": "/root/Main", "property": "suit_equipped", "expected": false, "operator": "eq"},
     {"type": "assert", "node_path": "/root/Main", "property": "slice_state", "expected": "encerrado", "operator": "eq"},
-    {"type": "assert", "text": "lethal without the insulated suit", "partial": true},
+    {"type": "assert", "text": "letal sin el traje", "partial": true},
     {"type": "input", "action": "move_left", "pressed": true, "auto_release": false},
     {"type": "wait", "seconds": 1.35},
     {"type": "input", "action": "move_left", "pressed": false},

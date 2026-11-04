@@ -21,6 +21,7 @@ var slice_closed := false
 var in_shelter := false
 var shelter_visited := false
 var route_taken := ROUTE_NONE
+var route_beat := ROUTE_NONE
 var filter_consumed := false
 
 func _ready() -> void:
@@ -38,7 +39,7 @@ func _ready() -> void:
 	get_node("Chalet/FavalliFabrication").craft_requested.connect(try_craft_suit)
 	for exit_node in get_tree().get_nodes_in_group("suit_exit"):
 		exit_node.exit_requested.connect(try_exit)
-	_refresh_hud("Favalli needs three materials for an insulated suit.")
+	_refresh_hud("Favalli necesita tres materiales para un traje aislante.")
 
 func _process(delta: float) -> void:
 	if slice_closed:
@@ -53,29 +54,45 @@ func _process(delta: float) -> void:
 			player.velocity = Vector2.ZERO
 			player.set_physics_process(false)
 			return
+	_refresh_interaction_prompt()
 	if Input.is_action_just_pressed("interact"):
 		_interact_with_nearest()
 
 func _interact_with_nearest() -> void:
+	var closest := _nearest_interactable()
+	if closest != null:
+		closest.interact()
+
+func _refresh_interaction_prompt() -> void:
+	var closest := _nearest_interactable()
+	if closest == null or ((closest is FilterShortcut or closest is GeneralPazExit or closest is RouteEndpoint) and not closest.available):
+		hud.set_interaction_prompt("")
+		return
+	hud.set_interaction_prompt("K / X · Interactuar")
+
+func _nearest_interactable() -> Node2D:
 	var closest: Node2D
 	var closest_distance := 92.0
 	for interactable in get_tree().get_nodes_in_group("chalet_interactable"):
 		if not interactable is Node2D:
 			continue
+		if (interactable is FilterShortcut or interactable is GeneralPazExit or interactable is RouteEndpoint) and not interactable.available:
+			continue
+		if interactable is NeighborhoodRadio and interactable.activated:
+			continue
 		var distance := player.global_position.distance_to((interactable as Node2D).global_position)
 		if distance < closest_distance:
 			closest = interactable
 			closest_distance = distance
-	if closest != null:
-		closest.interact()
+	return closest
 
 func collect_material(material_id: String) -> void:
 	if progression.collect_material(material_id):
-		_refresh_hud("Material secured: %s." % material_id.replace("_", " "))
+		_refresh_hud("Material asegurado: %s." % material_id.replace("_", " "))
 
 func try_craft_suit() -> bool:
 	if not progression.craft_suit():
-		_refresh_hud("Favalli: the three materials are still needed.")
+		_refresh_hud("Favalli: todavía faltan los tres materiales.")
 		return false
 	get_node("Chalet/FavalliFabrication").show_fabrication()
 	player.get_node("SuitOverlay").show()
@@ -84,13 +101,13 @@ func try_craft_suit() -> bool:
 
 func try_exit(exit_id: String) -> bool:
 	if not progression.take_exit(exit_id):
-		_refresh_hud("The snowfall is lethal without the insulated suit.")
+		_refresh_hud("La nevada es letal sin el traje aislante.")
 		return false
 	get_node("Chalet/Exit%s" % exit_id).close_slice()
 	if exit_id == ChaletProgression.EXIT_VN:
 		_enter_vicente_lopez_norte()
 		return true
-	_refresh_hud("First step into the snow. Elena and Martita remain at the chalet.")
+	_refresh_hud("El primer paso hacia la nieve. Elena y Martita siguen en el chalet.")
 	hud.show_terminal(zone_title, "El primer paso al sur abre una ruta distinta, todavía cubierta por la nevada.")
 	slice_closed = true
 	player.velocity = Vector2.ZERO
@@ -105,11 +122,13 @@ func _enter_vicente_lopez_norte() -> void:
 	exterior.shelter_changed.connect(_on_shelter_changed)
 	exterior.shortcut_requested.connect(_take_shortcut)
 	exterior.safe_route_requested.connect(_take_safe_route)
+	exterior.route_completed.connect(_complete_route)
 	get_node("Chalet").queue_free()
 	player.position = Vector2(100, 670)
 	in_shelter = false
 	shelter_visited = false
 	route_taken = ROUTE_NONE
+	route_beat = ROUTE_NONE
 	filter_consumed = false
 	_refresh_hud("Nieve cerrada. Una radio transmite al norte.")
 
@@ -126,20 +145,34 @@ func _on_shelter_changed(is_inside: bool) -> void:
 		_refresh_hud("Refugio cálido: la exposición baja.")
 
 func _take_shortcut() -> void:
-	if slice_closed or not progression.radio_activated or not route_taken.is_empty():
+	if slice_closed or not progression.radio_activated or not route_beat.is_empty() or not route_taken.is_empty():
 		return
-	if not survival.use_spare_filter():
+	if not survival.has_spare_filter:
 		_refresh_hud("Sin filtro: volvé al refugio y tomá el desvío cubierto.")
 		return
-	filter_consumed = true
-	route_taken = ROUTE_SHORTCUT
-	_complete_general_paz("Atajo expuesto: gastaste el filtro de repuesto.")
+	route_beat = ROUTE_SHORTCUT
+	get_node("VicenteLopezNorte").begin_route(route_beat)
+	_refresh_hud("Atajo expuesto: atravesá la calle abierta hasta la salida.")
 
 func _take_safe_route() -> void:
-	if slice_closed or not progression.radio_activated or not route_taken.is_empty():
+	if slice_closed or not progression.radio_activated or not route_beat.is_empty() or not route_taken.is_empty():
 		return
 	if not shelter_visited:
 		_refresh_hud("Primero entrá al refugio: el desvío cubierto empieza bajo su techo.")
+		return
+	route_beat = ROUTE_SAFE
+	get_node("VicenteLopezNorte").begin_route(route_beat)
+	_refresh_hud("Desvío cubierto: seguí el techo ámbar hasta General Paz.")
+
+func _complete_route(route: String) -> void:
+	if slice_closed or route_beat != route:
+		return
+	if route == ROUTE_SHORTCUT:
+		if not survival.use_spare_filter():
+			return
+		filter_consumed = true
+		route_taken = ROUTE_SHORTCUT
+		_complete_general_paz("Atajo expuesto: gastaste el filtro de repuesto.")
 		return
 	route_taken = ROUTE_SAFE
 	_complete_general_paz("Desvío cubierto: conservaste el filtro de repuesto.")
@@ -162,16 +195,16 @@ func _refresh_hud(status: String) -> void:
 	general_paz_reached = progression.general_paz_reached
 	hud.set_status(status)
 	if slice_state == ChaletProgression.GENERAL_PAZ_ALCANZADA:
-		hud.set_objective("General Paz reached.")
+		hud.set_objective("Llegaste a General Paz.")
 	elif slice_state == ChaletProgression.RADIO_ACTIVADA:
 		hud.set_objective("Elegí: atajo expuesto con filtro o desvío cubierto por el refugio.")
 	elif slice_state == ChaletProgression.VICENTE_LOPEZ_NORTE:
-		hud.set_objective("Find and activate the R-1 neighborhood radio.")
+		hud.set_objective("Encontrá y activá la radio vecinal R-1.")
 	elif slice_state == ChaletProgression.MATERIALES_COMPLETOS:
-		hud.set_objective("Return to Favalli and interact with the fabrication table.")
+		hud.set_objective("Volvé con Favalli e interactuá con la mesa de fabricación.")
 	elif suit_equipped and selected_exit.is_empty():
-		hud.set_objective("Choose the north window (VN) or south door (VS).")
+		hud.set_objective("Elegí la ventana norte (VN) o la puerta sur (VS).")
 	elif not selected_exit.is_empty():
 		hud.set_objective(zone_title)
 	else:
-		hud.set_objective("Collect lona, sellado/guantes and máscara/filtro in any order.")
+		hud.set_objective("Reuní lona, sellado de guantes y máscara con filtro en cualquier orden.")
