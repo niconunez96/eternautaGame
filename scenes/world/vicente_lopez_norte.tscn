@@ -28,6 +28,34 @@ script = ExtResource("1_scene")
 z_index = -20
 script = ExtResource("0_backdrop")
 setting = "street"
+[node name="Background" type="Node2D" parent="Presentation"]
+z_index = -19
+[node name="Midground" type="Node2D" parent="Presentation"]
+z_index = -10
+[node name="Foreground" type="Node2D" parent="Presentation"]
+z_index = 1
+[node name="R1Landmark" type="Node2D" parent="Presentation"]
+position = Vector2(650, 630)
+[node name="Beacon" type="Sprite2D" parent="Presentation/R1Landmark"]
+texture = ExtResource("5_art")
+region_enabled = true
+region_rect = Rect2(231, 189, 42, 21)
+texture_filter = 1
+scale = Vector2(2, 2)
+modulate = Color(0.78, 0.9, 1, 1)
+[node name="ShelterFacade" type="Node2D" parent="Presentation"]
+position = Vector2(855, 590)
+[node name="WarmWindow" type="Sprite2D" parent="Presentation/ShelterFacade"]
+texture = ExtResource("5_art")
+region_enabled = true
+region_rect = Rect2(273, 189, 21, 21)
+texture_filter = 1
+scale = Vector2(3, 3)
+modulate = Color(1, 0.65, 0.25, 1)
+[node name="CoveredRoute" type="Node2D" parent="Presentation"]
+position = Vector2(1080, 650)
+[node name="ExposedRoute" type="Node2D" parent="Presentation"]
+position = Vector2(1020, 700)
 
 [node name="SnowfieldBackground" type="TextureRect" parent="."]
 visible = false
