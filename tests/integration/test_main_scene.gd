@@ -15,6 +15,7 @@ func test_main_composes_polished_level_contract_without_arena_systems() -> void:
 	assert_not_null(instance.get_node_or_null("Player"))
 	assert_not_null(instance.get_node_or_null("Player/Camera2D"))
 	assert_not_null(instance.get_node_or_null("Chalet/Presentation"))
+	assert_not_null(instance.get_node_or_null("Chalet/Presentation/Backdrop"))
 	assert_null(instance.get_node_or_null("Chalet/RoomLabels"))
 	assert_not_null(instance.get_node_or_null("Chalet/MaterialLona"))
 	assert_not_null(instance.get_node_or_null("Chalet/MaterialSelladoGuantes"))

@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
+[ext_resource type="Script" path="res://scripts/presentation/world_backdrop.gd" id="0_backdrop"]
 [ext_resource type="Script" path="res://scripts/world/vicente_lopez_norte.gd" id="1_scene"]
 [ext_resource type="Script" path="res://scripts/world/neighborhood_radio.gd" id="2_radio"]
 [ext_resource type="Script" path="res://scripts/world/general_paz_exit.gd" id="3_general_paz"]
@@ -22,7 +23,14 @@ region = Rect2(0, 378, 138, 63)
 [node name="VicenteLopezNorte" type="Node2D"]
 script = ExtResource("1_scene")
 
+[node name="Presentation" type="Node2D" parent="."]
+[node name="Backdrop" type="Node2D" parent="Presentation"]
+z_index = -20
+script = ExtResource("0_backdrop")
+setting = "street"
+
 [node name="SnowfieldBackground" type="TextureRect" parent="."]
+visible = false
 offset_right = 1280.0
 offset_bottom = 800.0
 texture = SubResource("SnowfieldTexture")

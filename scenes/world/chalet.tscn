@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
+[ext_resource type="Script" path="res://scripts/presentation/world_backdrop.gd" id="1_backdrop"]
 [ext_resource type="PackedScene" path="res://scenes/world/suit_material.tscn" id="1_material"]
 [ext_resource type="PackedScene" path="res://scenes/world/fabrication_station.tscn" id="2_station"]
 [ext_resource type="PackedScene" path="res://scenes/world/suit_exit.tscn" id="3_exit"]
@@ -30,6 +31,9 @@ position = Vector2(10, 400)
 shape = SubResource("WallShape")
 
 [node name="Presentation" type="Node2D" parent="."]
+[node name="Backdrop" type="Node2D" parent="Presentation"]
+z_index = -20
+script = ExtResource("1_backdrop")
 [node name="WarmWindowGlow" type="PointLight2D" parent="Presentation"]
 position = Vector2(1000, 560)
 energy = 0.45
