@@ -19,6 +19,7 @@ var radio_activated := false
 var general_paz_reached := false
 var slice_closed := false
 var in_shelter := false
+var shelter_visited := false
 var route_taken := ROUTE_NONE
 var filter_consumed := false
 
@@ -106,6 +107,7 @@ func _enter_vicente_lopez_norte() -> void:
 	get_node("Chalet").queue_free()
 	player.position = Vector2(100, 670)
 	in_shelter = false
+	shelter_visited = false
 	route_taken = ROUTE_NONE
 	filter_consumed = false
 	_refresh_hud("Nieve cerrada. Una radio transmite al norte.")
@@ -118,6 +120,7 @@ func _activate_radio() -> void:
 func _on_shelter_changed(is_inside: bool) -> void:
 	in_shelter = is_inside
 	if is_inside:
+		shelter_visited = true
 		_refresh_hud("Refugio cálido: la exposición baja.")
 
 func _take_shortcut() -> void:
@@ -132,6 +135,9 @@ func _take_shortcut() -> void:
 
 func _take_safe_route() -> void:
 	if slice_closed or not progression.radio_activated or not route_taken.is_empty():
+		return
+	if not shelter_visited:
+		_refresh_hud("Primero entrá al refugio: el desvío cubierto empieza bajo su techo.")
 		return
 	route_taken = ROUTE_SAFE
 	_complete_general_paz("Desvío cubierto: conservaste el filtro de repuesto.")
