@@ -72,6 +72,8 @@ func test_materials_are_free_order_and_fabrication_requires_all_three() -> void:
 	instance.collect_material(ChaletProgression.SELLADO_GUANTES)
 	assert_eq(instance.slice_state, ChaletProgression.MATERIALES_COMPLETOS)
 	assert_true(instance.try_craft_suit())
+	assert_true(instance.get_node("Player/SuitOverlay").visible)
+	assert_true(instance.get_node("Chalet/FavalliFabrication/ReadyGlow").visible)
 	assert_true(instance.suit_equipped)
 	assert_eq(instance.slice_state, ChaletProgression.TRAJE_EQUIPADO)
 

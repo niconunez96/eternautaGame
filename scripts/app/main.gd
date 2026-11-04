@@ -78,7 +78,8 @@ func try_craft_suit() -> bool:
 		_refresh_hud("Favalli: the three materials are still needed.")
 		return false
 	get_node("Chalet/FavalliFabrication").show_fabrication()
-	_refresh_hud("Favalli seals the suit. The snow is no longer an immediate barrier.")
+	player.get_node("SuitOverlay").show()
+	_refresh_hud("Favalli sella el traje. La nieve ya no es una barrera inmediata.")
 	return true
 
 func try_exit(exit_id: String) -> bool:
