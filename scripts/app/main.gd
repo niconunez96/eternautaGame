@@ -167,4 +167,3 @@ func _refresh_hud(status: String) -> void:
 		hud.set_objective(zone_title)
 	else:
 		hud.set_objective("Collect lona, sellado/guantes and máscara/filtro in any order.")
-
