@@ -9,3 +9,4 @@ func interact() -> void:
 
 func show_fabrication() -> void:
 	fabrication_visible = true
+	$ReadyGlow.show()

@@ -24,13 +24,6 @@ offset_right = 1180.0
 offset_bottom = 74.0
 text = "Ayudá a Favalli a fabricar el traje."
 
-[node name="SliceStateLabel" type="Label" parent="."]
-offset_left = 20.0
-offset_top = 78.0
-offset_right = 600.0
-offset_bottom = 104.0
-text = "Slice: encerrado"
-
 [node name="ExposureLabel" type="Label" parent="."]
 visible = false
 offset_left = 980.0
@@ -41,12 +34,16 @@ theme_override_colors/font_color = Color(1, 0.78, 0.5, 1)
 horizontal_alignment = 2
 text = "EXPOSICIÓN 0%"
 
-[node name="ControlsLabel" type="Label" parent="."]
-offset_left = 20.0
-offset_top = 748.0
-offset_right = 1200.0
-offset_bottom = 778.0
-text = "Move: WASD / stick   Jump: Space / A   Interact: K / X   Pause: Esc / Start"
+[node name="InteractionLabel" type="Label" parent="."]
+visible = false
+offset_left = 400.0
+offset_top = 730.0
+offset_right = 880.0
+offset_bottom = 765.0
+theme_override_colors/font_color = Color(1, 0.82, 0.48, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+text = ""
 
 [node name="TerminalOverlay" type="ColorRect" parent="."]
 visible = false

@@ -15,3 +15,7 @@ The review accepted the exposure model only as a first corrective increment. It 
 ### Shelter and filter-route increment
 
 Vicente López Norte now owns a warm shelter zone that lowers exposure and two R-1-gated exits. The covered detour preserves the spare filter; the exposed shortcut consumes it. The route outcome is exposed on `Main` for headless QA. Four input QA scenarios cover the safe route, shortcut, lethal exposure, and VS terminal.
+
+### Final route verification
+
+The final local run completed `make import`, `make verify`, two consecutive `make qa` executions, and `make export-linux-debug`. Both QA runs passed the four supported playthroughs. Xvfb captures also exercised both physical VN endings: the covered route closes at General Paz while preserving the filter; the exposed route closes there after consuming it.

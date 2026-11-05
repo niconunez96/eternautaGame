@@ -1,13 +1,15 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=12 format=3]
 
+[ext_resource type="Script" path="res://scripts/presentation/world_backdrop.gd" id="0_backdrop"]
 [ext_resource type="Script" path="res://scripts/world/vicente_lopez_norte.gd" id="1_scene"]
 [ext_resource type="Script" path="res://scripts/world/neighborhood_radio.gd" id="2_radio"]
 [ext_resource type="Script" path="res://scripts/world/general_paz_exit.gd" id="3_general_paz"]
 [ext_resource type="Script" path="res://scripts/world/filter_shortcut.gd" id="4_shortcut"]
 [ext_resource type="Texture2D" path="res://assets/kenney/characters/spritesheet.png" id="5_art"]
+[ext_resource type="Script" path="res://scripts/world/route_endpoint.gd" id="6_endpoint"]
 
 [sub_resource type="RectangleShape2D" id="FloorShape"]
-size = Vector2(1280, 80)
+size = Vector2(1680, 80)
 
 [sub_resource type="RectangleShape2D" id="LedgeShape"]
 size = Vector2(180, 30)
@@ -22,7 +24,52 @@ region = Rect2(0, 378, 138, 63)
 [node name="VicenteLopezNorte" type="Node2D"]
 script = ExtResource("1_scene")
 
+[node name="Presentation" type="Node2D" parent="."]
+[node name="Backdrop" type="Node2D" parent="Presentation"]
+z_index = -20
+script = ExtResource("0_backdrop")
+setting = "street"
+[node name="Background" type="Node2D" parent="Presentation"]
+z_index = -19
+[node name="Midground" type="Node2D" parent="Presentation"]
+z_index = -10
+[node name="Foreground" type="Node2D" parent="Presentation"]
+z_index = 1
+[node name="R1Landmark" type="Node2D" parent="Presentation"]
+position = Vector2(650, 630)
+[node name="Beacon" type="Sprite2D" parent="Presentation/R1Landmark"]
+texture = ExtResource("5_art")
+region_enabled = true
+region_rect = Rect2(231, 189, 42, 21)
+texture_filter = 1
+scale = Vector2(2, 2)
+modulate = Color(0.78, 0.9, 1, 1)
+[node name="ShelterFacade" type="Node2D" parent="Presentation"]
+position = Vector2(855, 590)
+[node name="WarmWindow" type="Sprite2D" parent="Presentation/ShelterFacade"]
+texture = ExtResource("5_art")
+region_enabled = true
+region_rect = Rect2(273, 189, 21, 21)
+texture_filter = 1
+scale = Vector2(3, 3)
+modulate = Color(1, 0.65, 0.25, 1)
+[node name="CoveredRoute" type="Node2D" parent="Presentation"]
+position = Vector2(1080, 650)
+[node name="Awning" type="Polygon2D" parent="Presentation/CoveredRoute"]
+polygon = PackedVector2Array(-85, -80, 85, -80, 112, -44, -105, -44)
+color = Color(0.75, 0.46, 0.19, 1)
+[node name="Lantern" type="PointLight2D" parent="Presentation/CoveredRoute"]
+position = Vector2(0, -58)
+energy = 0.5
+color = Color(1, 0.67, 0.3, 1)
+[node name="ExposedRoute" type="Node2D" parent="Presentation"]
+position = Vector2(1020, 700)
+[node name="Drift" type="Polygon2D" parent="Presentation/ExposedRoute"]
+polygon = PackedVector2Array(-90, -25, -40, -70, 10, -36, 60, -78, 105, -20)
+color = Color(0.75, 0.88, 0.94, 1)
+
 [node name="SnowfieldBackground" type="TextureRect" parent="."]
+visible = false
 offset_right = 1280.0
 offset_bottom = 800.0
 texture = SubResource("SnowfieldTexture")
@@ -41,7 +88,7 @@ texture_filter = 1
 scale = Vector2(9.3, 2.6)
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(640, 760)
+position = Vector2(840, 760)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("FloorShape")
 
@@ -96,8 +143,9 @@ region_rect = Rect2(273, 189, 21, 21)
 texture_filter = 1
 scale = Vector2(1.7, 1.7)
 [node name="Label" type="Label" parent="ShortcutExit"]
+visible = false
 position = Vector2(-105, -68)
-text = "ATAJO BLOQUEADO"
+text = "Atajo expuesto"
 
 [node name="GeneralPazExit" type="Area2D" parent="." groups=["chalet_interactable"]]
 position = Vector2(1160, 675)
@@ -109,5 +157,22 @@ region_rect = Rect2(377, 84, 21, 42)
 texture_filter = 1
 scale = Vector2(1.7, 1.7)
 [node name="Label" type="Label" parent="GeneralPazExit"]
+visible = false
 position = Vector2(-90, -68)
-text = "DESVÍO CUBIERTO BLOQUEADO"
+text = "Desvío cubierto"
+[node name="ShortcutEndpoint" type="Area2D" parent="." groups=["chalet_interactable"]]
+visible = false
+position = Vector2(1200, 675)
+script = ExtResource("6_endpoint")
+route = "shortcut"
+[node name="Marker" type="Polygon2D" parent="ShortcutEndpoint"]
+polygon = PackedVector2Array(-24, 0, 0, -48, 24, 0)
+color = Color(0.72, 0.9, 0.96, 1)
+[node name="CoveredEndpoint" type="Area2D" parent="." groups=["chalet_interactable"]]
+visible = false
+position = Vector2(1420, 675)
+script = ExtResource("6_endpoint")
+route = "safe"
+[node name="Marker" type="Polygon2D" parent="CoveredEndpoint"]
+polygon = PackedVector2Array(-28, 0, 0, -52, 28, 0)
+color = Color(0.97, 0.69, 0.32, 1)

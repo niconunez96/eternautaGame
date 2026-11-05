@@ -28,7 +28,7 @@ The slice intentionally has no combat, health, respawn/checkpoints, dash, double
 
 ## Automated playtests
 
-`make qa` launches four real headless input playthroughs of the main scene: `tests/qa/chalet_vn.json`, `tests/qa/chalet_vn_shortcut.json`, `tests/qa/chalet_vn_lethal.json`, and `tests/qa/chalet_vs.json`. The VN scenarios verify the sheltered detour, filter-consuming shortcut, and lethal-exposure terminal respectively; VS asserts its independent terminal closure. Reports are written under `build/`.
+`make qa` launches four real headless input playthroughs of the main scene: `tests/qa/chalet_vn.json`, `tests/qa/chalet_vn_shortcut.json`, `tests/qa/chalet_vn_lethal.json`, and `tests/qa/chalet_vs.json`. The VN scenarios verify the sheltered detour, filter-consuming shortcut, and lethal-exposure terminal respectively; VS asserts its independent terminal closure. The final verification ran this suite twice successfully; reports are written under `build/`.
 
 `make qa-visual` is intentionally a placeholder until screenshots are captured in CI. Visual baselines must come from CI (not local drivers/fonts), then Godot QA can diff them under Xvfb/Mesa.
 
